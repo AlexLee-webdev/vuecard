@@ -1,0 +1,46 @@
+<html>
+
+<head>
+  <script src="https://unpkg.com/vue@next"></script>
+  <meta charset="utf-8"/>
+</head>
+
+<body>
+  <div
+    id="marathon"
+    style="font-size: 50px;"
+  >
+  </div>
+  <script>
+    const {
+      reactive,
+      watch,
+    } = Vue;
+
+    const mod = (a, b) => ((a % b) + b) % b;
+
+    const maxRoadLength = 50;
+    const competitor = reactive({
+      position: 0,
+      speed: 1,
+    });
+
+    watch(() => {
+      const street = Array(maxRoadLength).fill('_');
+      const marathonEl = document.getElementById('marathon');
+      street[competitor.position] = (competitor.position % 2 === 1)
+        ? '🏃'
+        : '🚶';
+
+      marathonEl.innerHTML = '';
+      marathonEl.innerHTML = street.reverse().join('');
+    });
+
+
+    setInterval(() => {
+      competitor.position = mod(competitor.position + competitor.speed, maxRoadLength)
+    }, 100);
+  </script>
+</body>
+
+</html>
